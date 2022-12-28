@@ -1,9 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { app } from '../Firebase/firebase.init';
-import { async } from '@firebase/util';
 
-const AuthData = createContext();
+export const AuthData = createContext();
 
 const AuthContext = ({children}) => {
 
@@ -58,6 +57,8 @@ const AuthContext = ({children}) => {
         });
         return () => unsubs();
     },[])
+
+    console.log(userData)
 
     const authInfo ={
         signup,

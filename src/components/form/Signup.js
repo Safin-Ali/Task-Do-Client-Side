@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useContext} from 'react';
+import { AuthData } from '../../Context/AuthContext';
+import fetchWithHeader from '../../hooks/fetchWithHeader';
+import randomAvatar from '../../hooks/randomAvatar';
 
 const Signup = () => {
 
-    const handleForm = (event) => {
+    const {userData,signup,updateUser} = useContext(AuthData);
+
+
+    const handleForm = async (event) => {
         event.preventDefault();
         const feild = event.target;
         const userEmail = feild.userEmail.value;
         const userPassword = feild.userPassword.value;
         const userName = feild.userName.value;
+        const userGender = feild.userGender.value;
+        const avatarImgs = await randomAvatar();
+        const userAvatar = avatarImgs.avatar[userGender];
+        const randomAvatarIdx = userAvatar[Math.floor(Math.random() * (9 - 0 + 1)) + 0]
+
+        await signup(userEmail,userPassword);
+
+        await updateUser(userName, randomAvatarIdx);
+
+        await fetchWithHeader('http://localhost:5000/user',{userEmail,userGender,userName,userAuthUID: userData?.uid,userAvatar: randomAvatarIdx});
+        
     }
 
     return (
@@ -83,6 +100,18 @@ const Signup = () => {
                         placeholder="Full Name"
                         name="userName"
                         />
+                    </div>
+                    <div className="mb-6">
+                        <select
+                        className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                        placeholder="Full Name"
+                        name="userGender"
+                        defaultValue={'Gender'}
+                        >
+                            <option disabled>Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
                     </div>
                     <div className="mb-6">
                         <input

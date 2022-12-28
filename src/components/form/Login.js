@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthData } from '../../Context/AuthContext';
+import fetchWithHeader from '../../hooks/fetchWithHeader';
 
 const Login = () => {
 
-    const handleForm = (event) => {
-        event.preventDefault();
-        const feild = event.target;
-        const userEmail = feild.userEmail.value;
-        const userPassword = feild.userPassword.value;
-        console.log(userEmail,userPassword)
-    }
+    const {login,resetPassword} = useContext(AuthData)
+
+    const handleForm = async (event) => {
+        try{
+            event.preventDefault();
+            const feild = event.target;
+            const userEmail = feild.userEmail.value;
+            const userPassword = feild.userPassword.value;
+            await login(userEmail,userPassword);
+        }
+        catch(error){
+            console.log(error.message)
+        }
+    };
 
     return (
         <>
