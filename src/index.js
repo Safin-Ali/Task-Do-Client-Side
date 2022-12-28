@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import AuthContext from './Context/AuthContext';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import RouteProvide from './Routes/RouteProvide';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <RouteProvide>
-    
-  </RouteProvide>
+  <AuthContext>
+    <RouteProvide/>
+  </AuthContext>
 );
 
 // If you want to start measuring performance in your app, pass a function
