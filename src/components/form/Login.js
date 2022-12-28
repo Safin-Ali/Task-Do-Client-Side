@@ -1,11 +1,60 @@
+import { async } from '@firebase/util';
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthData } from '../../Context/AuthContext';
 import fetchWithHeader from '../../hooks/fetchWithHeader';
 
+export function PasswordReset () {
+    const {resetPassword} = useContext(AuthData);
+
+    const handlePassRest = async (event) => {
+        event.preventDefault();
+
+        try{
+            if(!event.target.resetPass.value) return window.alert('Please Input Email');
+    
+            const res = await resetPassword(event.target.resetPass.value);
+
+            window.alert('Mail Sent');
+            return event.target.reset();
+        }
+        catch(e){
+            return window.alert(e.message)
+        }
+        };
+
+    return(
+        <>
+            <section className={`h-screen flex items-center w-[90%] md:w-[55%] mx-auto`}>
+                <div className="p-6 w-full bg-[#eef1f5] shadow-md rounded-md sm:p-8 md:p-16">
+                    <h1 className="mb-3 text-2xl font-bold text-gray-900 lg:text-3xl">Forgot your password?</h1>
+                    <p className="text-base font-normal text-gray-500 ">Type in your email in the field below and we will send you a code to reset your password.</p>
+                    <form onSubmit={handlePassRest} className="mt-8">
+                        <div className="mb-6">
+                            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+                            <input id="email" type="email" name="resetPass" placeholder="name@company.com" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
+                            </div>
+                            <div className="mb-6">
+                            <div>
+                                <button className="text-white font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center mb-6 bg-blue-700 lg:mb-0" type="submit">
+                                    <span className="flex justify-center items-center">
+                                            Send code
+                                    </span>
+                                </button>
+                            <div className="flex items-start text-sm font-medium text-gray-500 dark:text-gray-400"><Link to={'/login'} className="ml-auto text-blue-700 hover:underline" href="/login/">Back to Login</Link>
+                            </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </>
+    )
+}
+
 const Login = () => {
 
-    const {login,resetPassword,signWithGoogle} = useContext(AuthData);
+    const {login,signWithGoogle} = useContext(AuthData);
 
     const [passTogg,setPassTogg] = useState(false);
 
@@ -134,7 +183,7 @@ const Login = () => {
                             >Remember me</label
                         >
                         </div>
-                        <a href="#!" className="text-gray-800">Forgot password?</a>
+                        <Link to={'/password-reset'} className="text-gray-800">Forgot password?</Link>
                     </div>
 
                     <div className="text-center lg:text-left">

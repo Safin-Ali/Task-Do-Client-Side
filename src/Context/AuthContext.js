@@ -32,14 +32,7 @@ const AuthContext = ({children}) => {
     };
 
     const resetPassword = (email) => {
-        return sendPasswordResetEmail(auth, async email =>{
-            try{
-
-            }
-            catch(error) {
-                console.log(error.message)
-            }
-        });
+        return sendPasswordResetEmail(auth,email);
     };
 
     const emailVerification = () => {
