@@ -1,21 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthData } from '../../Context/AuthContext';
 import fetchWithHeader from '../../hooks/fetchWithHeader';
 
 const Login = () => {
 
-    const {login,resetPassword} = useContext(AuthData)
+    const {login,resetPassword,signWithGoogle} = useContext(AuthData);
+
+    const [passTogg,setPassTogg] = useState(false);
+
+    const handlePassVisisbleToggle = () => {
+        setPassTogg(!passTogg);
+    }
 
     const handleForm = async (event) => {
+        event.preventDefault();
+        const feild = event.target;
         try{
-            event.preventDefault();
-            const feild = event.target;
             const userEmail = feild.userEmail.value;
             const userPassword = feild.userPassword.value;
             await login(userEmail,userPassword);
         }
         catch(error){
-            console.log(error.message)
+            window.alert(error.message)
+            return feild.reset();
         }
     };
 
@@ -74,6 +82,15 @@ const Login = () => {
                         type="button"
                         data-mdb-ripple="true"
                         data-mdb-ripple-color="light"
+                        onClick={async ()=>{
+                            try{
+                                const res = signWithGoogle();
+                            }
+                            catch(error){
+                                return window.alert(error.message)
+                            }
+                        }}
+                        clas
                         className="inline-block p-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out mx-1"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"> <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/> </svg>
@@ -91,14 +108,18 @@ const Login = () => {
                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         placeholder="Email address"
                         name="userEmail"
+                        required
                         />
                     </div>
                     <div className="mb-6">
                         <input
-                        type="password"
+                        type={passTogg ? "text" : 'password'}
                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                         placeholder="Password"
                         name="userPassword"
+                        onFocus={handlePassVisisbleToggle}
+                        onBlur={handlePassVisisbleToggle}
+                        required
                         />
                     </div>
 
@@ -125,11 +146,11 @@ const Login = () => {
                         </button>
                         <p className="text-sm font-semibold mt-2 pt-1 mb-0">
                         Don't have an account?
-                        <a
-                            href="#!"
+                        <Link
+                            to={'/signup'}
                             className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
-                            >Register</a
-                        >
+                            >Register</
+                        Link>
                         </p>
                     </div>
                     </form>
