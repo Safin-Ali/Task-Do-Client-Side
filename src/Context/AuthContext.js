@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { app } from '../Firebase/firebase.init';
 
 export const AuthData = createContext();
@@ -9,6 +9,8 @@ const AuthContext = ({children}) => {
     const auth = getAuth(app);
 
     const [userData,setUserData] = useState(null);
+
+    const [loaded,setLoaded] = useState(false);
 
     const googleAuthProv = new GoogleAuthProvider();
 
@@ -31,6 +33,12 @@ const AuthContext = ({children}) => {
         });
     };
 
+    const logOut = () => {
+        signOut(auth)
+        .then(res => localStorage.removeItem('token'))
+        .catch(e => console.log(e.message));
+    }
+
     const resetPassword = (email) => {
         return sendPasswordResetEmail(auth,email);
     };
@@ -48,7 +56,8 @@ const AuthContext = ({children}) => {
     useEffect(()=>{
         const unsubs = onAuthStateChanged(auth, async user =>{
             try{
-                setUserData(user)
+                setUserData(user);
+                setLoaded(true);
             }
             catch(error){
                 setUserData(error.message)
@@ -56,8 +65,9 @@ const AuthContext = ({children}) => {
         });
         return () => unsubs();
     },[])
-
+    
     console.log(userData)
+
 
     const authInfo ={
         signup,
@@ -66,7 +76,9 @@ const AuthContext = ({children}) => {
         userData,
         resetPassword,
         emailVerification,
-        signWithGoogle
+        signWithGoogle,
+        logOut,
+        loaded
 
     }
 

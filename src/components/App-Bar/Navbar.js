@@ -13,11 +13,14 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthData } from '../../Context/AuthContext';
 
 const pages = ['My Task', 'Add Task', 'Complete Task'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
 function ResponsiveAppBar() {
+
+  const {userData,logOut} = React.useContext(AuthData);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -40,8 +43,14 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleCloseUserMenu = async () => {
+    try{
+      setAnchorElUser(null);
+      return logOut();
+    }
+    catch(e){
+      window.alert(e.message)
+    }
   };
 
   return (
@@ -140,7 +149,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="User_Avatar" src={userData?.photoURL} />
               </IconButton>
             </Tooltip>
             <Menu

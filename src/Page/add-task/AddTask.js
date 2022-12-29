@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
+import { Button } from '@mui/material'
+
 
 const AddTask = () => {
 
@@ -9,7 +10,7 @@ const AddTask = () => {
         const form = event.target;
         const task = form.taskName.value;
         console.log(task)
-    }
+    };
 
     return (
         <>
