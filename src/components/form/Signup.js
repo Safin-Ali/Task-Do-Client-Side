@@ -1,8 +1,8 @@
 import React, { useContext, useState} from 'react';
 import { AuthData } from '../../Context/AuthContext';
-import fetchWithHeader from '../../hooks/fetchWithHeader';
 import randomAvatar from '../../hooks/randomAvatar';
 import {Link} from 'react-router-dom';
+import fetchWithData from '../../hooks/fetchHooks';
 
 const Signup = () => {
 
@@ -35,7 +35,7 @@ const Signup = () => {
     
             await updateUser(userName, randomAvatarIdx);
     
-            await fetchWithHeader('http://localhost:5000/user',{userEmail,userGender,userName,userAuthUID: userData?.uid,userAvatar: randomAvatarIdx});
+            await fetchWithData('http://localhost:5000/user',{userEmail,userGender,userName,userAuthUID: userData?.uid,userAvatar: randomAvatarIdx});
         }
         catch(error){
             window.alert(error.message)

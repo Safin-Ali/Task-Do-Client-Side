@@ -1,9 +1,9 @@
 import React from 'react';
-import { useFetchWithQuery } from '../../hooks/fetchWithHeader';
+import { useFetchWithJWT } from '../../hooks/fetchHooks';
 
 const MyTask = () => {
 
-    const [data] = useFetchWithQuery('http://localhost:5000/my-task');
+    const [data] = useFetchWithJWT('http://localhost:5000/my-task');
 
     return (
         <div>

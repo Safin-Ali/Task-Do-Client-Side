@@ -3,12 +3,12 @@ import { useState,useEffect } from 'react';
 
 
 
-export const useFetchWithQuery = (path) => {
+export const useFetchWithJWT = (path) => {
 
     const[data,setData] = useState(null);
 
     useEffect(()=>{
-                axios.get(`${path}?encryptJWT=${localStorage.getItem('token')}}`)
+                axios.get(path,{headers:{encryptJWT: `Bearer ${localStorage.getItem('token')}`}})
                 .then(res => setData(res.data))
                 .catch(() => setData(null));
 
@@ -17,7 +17,7 @@ export const useFetchWithQuery = (path) => {
 
 };
 
-const fetchWithHeader = async (path,header) => {
+const fetchWithData = async (path,header) => {
 
     try{
         const res = await axios.post(path,header);
@@ -29,4 +29,4 @@ const fetchWithHeader = async (path,header) => {
     }
 };
 
-export default fetchWithHeader;
+export default fetchWithData;
