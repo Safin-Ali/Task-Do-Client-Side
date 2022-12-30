@@ -20,6 +20,11 @@ code {
   animation: fade 2.5s infinite;
 }
 
+.fade-in{
+  opacity: 1;
+  transition: all 1s linear;
+}
+
 @keyframes fade {
   0%{
     opacity: 0;

@@ -5,9 +5,11 @@ import { fetchWithPatch } from '../../hooks/fetchHooks';
 const TaskTable = ({
     data,
     setData,
-    SetPostBool
+    SetPostBool,
+    setOpen,
+    setCurrModalData
 }) => {
-    const {taskImgURL,userEmail,_id,taskName} = data;
+    let {taskImgURL,userEmail,_id,taskName} = data;
 
     const handleCompleteTask = async (id,email) => {
         try{
@@ -25,11 +27,7 @@ const TaskTable = ({
             window.alert(e.message);
             return SetPostBool(false)
         }
-    }
-
-    const handleUpdateTask = (id,email) => {
-        console.log(id,email)
-    }
+    };
 
     return (
         <div className={`bg-[#F7F5F5] shadow-md rounded-[10px] py-2`}>
@@ -42,9 +40,12 @@ const TaskTable = ({
             <div className={`grid justify-center items-center grid-cols-1 gap-y-3 md:gap-y-0 md:grid-cols-3 md:gap-5 mx-[5%]`}>
                 <Button variant="contained" type='submit' sx={{width: '100%',m:'0 auto',textAlign: 'center'}} onClick={()=>handleCompleteTask(_id,userEmail)}>Complete</Button>
 
-                <Button variant="contained" type='submit' sx={{width: '100%',m:'0 auto',textAlign: 'center'}} onClick={()=>handleUpdateTask(_id,userEmail)}>Update</Button>
+                <Button variant="contained" type='submit' sx={{width: '100%',m:'0 auto',textAlign: 'center'}} onClick={()=>{
+                    setOpen(true)
+                    setCurrModalData(data)
+                    }}>Update</Button>
 
-                <Button variant="contained" type='submit' sx={{width: '100%',m:'0 auto',textAlign: 'center'}} className={'hover:bg-green-700'} onClick={()=>handleUpdateTask(_id,userEmail)}>Delete</Button>
+                <Button variant="contained" type='submit' sx={{width: '100%',m:'0 auto',textAlign: 'center'}} className={'hover:bg-green-700'} onClick={null}>Delete</Button>
             </div>
            </div>
         </div>
