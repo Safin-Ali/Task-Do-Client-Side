@@ -10,13 +10,15 @@ const MyTask = () => {
 
     const [data] = useFetchWithJWT('http://localhost:5000/my-task',userData?.email);
 
+    console.log(data)
+
     return (
         <section className={``}>
             {
-                !data?.length && <NoDataFound>No Task Found</NoDataFound>
+                !data ? <LoadingSpin></LoadingSpin> : ''
             }
             {
-                !data ? <LoadingSpin></LoadingSpin> : ''
+                !data?.length && <NoDataFound>No Task Found</NoDataFound>
             }
         </section>
     );

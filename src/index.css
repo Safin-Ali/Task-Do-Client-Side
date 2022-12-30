@@ -15,3 +15,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.fade{
+  animation: fade 2.5s infinite;
+}
+
+@keyframes fade {
+  0%{
+    opacity: 0;
+    transition: all 0.2s linear;
+  }
+  50%{
+    opacity: 1;
+    transition: all 0.2s linear;
+  }
+  75%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+    transition: all 0.2s linear;
+  }
+}
