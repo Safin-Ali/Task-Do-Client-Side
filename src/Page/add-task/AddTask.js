@@ -25,9 +25,7 @@ async function uploadImage (imgData,func) {
 
 const AddTask = () => {
 
-    const {userData} = useContext(AuthData);
-
-    const [onPosting,SetPostBool] = useState(false);
+    const {userData,onPosting,SetPostBool} = useContext(AuthData);
 
     const handleTaskForm = async (event) => {
         event.preventDefault();
@@ -46,7 +44,7 @@ const AddTask = () => {
                 taskImgURL = imgURL;
             }
     
-            const dataFormat = {taskName: task,userEmail:userData.email,taskImgURL};
+            const dataFormat = {taskName: task,userEmail:userData.email,taskImgURL, taskStatus: false};
 
             axios.post('http://localhost:5000/add-task',dataFormat)
             .then(res => {

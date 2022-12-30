@@ -8,6 +8,8 @@ const AuthContext = ({children}) => {
 
     const auth = getAuth(app);
 
+    const [onPosting,SetPostBool] = useState(false);
+
     const [userData,setUserData] = useState(null);
 
     const [loaded,setLoaded] = useState(false);
@@ -78,7 +80,9 @@ const AuthContext = ({children}) => {
         emailVerification,
         signWithGoogle,
         logOut,
-        loaded
+        loaded,
+        onPosting,
+        SetPostBool
 
     }
 
