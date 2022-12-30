@@ -43,15 +43,14 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = async () => {
-    try{
-      setAnchorElUser(null);
-      return logOut();
-    }
-    catch(e){
-      window.alert(e.message)
-    }
+  const handleCloseUserMenu =  () => {
+      return setAnchorElUser(null);
   };
+
+  const handlelogOut = () => {
+      return logOut();;
+  };
+  
 
   return (
     <AppBar position="static">
@@ -147,7 +146,7 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Open Option">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User_Avatar" src={userData?.photoURL} />
               </IconButton>
@@ -169,7 +168,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={handlelogOut}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

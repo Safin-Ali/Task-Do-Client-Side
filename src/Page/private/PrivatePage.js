@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { LoadingSpinRotateDot } from '../../components/loader-spin/LoadingSpin';
 import { AuthData } from '../../Context/AuthContext';
 
 const PrivatePage = ({children}) => {
@@ -8,7 +9,7 @@ const PrivatePage = ({children}) => {
 
     const location = useLocation();
 
-    if(!loaded) return <p>wait</p>;
+    if(!loaded) return <LoadingSpinRotateDot></LoadingSpinRotateDot>;
 
     if(!userData) return <Navigate to={'/login'} state={{from: location}} replace></Navigate>;
 
